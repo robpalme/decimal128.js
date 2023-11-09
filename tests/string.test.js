@@ -50,22 +50,27 @@ describe("to exponential string", () => {
     }
 });
 
-describe("normalization", () => {
+describe("leading zeros are removed", () => {
     let tests = [
         ["0123.456", "123.456"],
-        ["123.4560", "123.456"],
-        ["123.0", "123"],
         ["00.123", "0.123"],
-        ["0.0", "0"],
-        ["-0.0", "-0"],
-        ["00.0", "0"],
-        ["-00.0", "-0"],
-        ["0.00", "0"],
-        ["-0.00", "-0"],
+        ["0.0", "0.0"],
+        ["-0.0", "-0.0"],
+        ["00.0", "0.0"],
+        ["-00.0", "-0.0"],
     ];
     for (let [a, b] of tests) {
-        test(`${a} is actually ${b}`, () => {
+        test(`leading zeros of ${a} get removed`, () => {
             expect(new Decimal128(a).toString()).toStrictEqual(b);
+        });
+    }
+});
+
+describe("subnormal values", () => {
+    let tests = ["123.4560", "0.0", "-0.0", "0.00", "-0.00"];
+    for (let [a, b] of tests) {
+        test(`trailing zeros of ${a} are preserved`, () => {
+            expect(new Decimal128(a).toString()).toStrictEqual(a);
         });
     }
 });
