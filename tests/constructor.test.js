@@ -112,8 +112,8 @@ describe("constructor", () => {
             expect(
                 new Decimal128(
                     "10000000000000000000000000000000000000000000.0000000"
-                )
-            ).toBeInstanceOf(Decimal128);
+                ).toString()
+            ).toStrictEqual("1000000000000000000000000000000000");
         });
         test("ton of digits gets rounded", () => {
             expect(
